@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.post('/registration', 
 	usercontroller.validator, usercontroller.checkIfUserExists,
 	  usercontroller.getHash,usercontroller.actualRegister)
-app.post('/login', authcontroller.validator, authcontroller.passwordChecker)
+app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
 
 
 app.listen(3023);

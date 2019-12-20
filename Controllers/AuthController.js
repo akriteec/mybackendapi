@@ -1,6 +1,8 @@
 var bcrypt = require('bcrypt');
 var user= require('../Models/UserModel.js');
 
+var jwt = require('jsonwebtoken');
+//var token = jwt.sign({ _id: user._id, admin: true }, process.env.JWT_SECRET, { expiresIn: '1 week' });
 
 
 function validator(req,res,next){
@@ -69,8 +71,25 @@ function passwordChecker(req,res,next){
 	});
 }
 
+function jwtTokenGen(req,res,next){
+	//console.log("here");
+	var myPayload = {
+		username:req.body.username
+		//password:req.body.password
+		//userLevel:'superadmin'
+	}
+	//var secretOrPrivateKey = 
+
+	jwt.sign(myPayload, 'secretOrPrivateKey', {expiresIn: "10h"}, function(err,result){
+		console.log(result);
+		console.log(err);
+		res.json({"user token": result})
+	})
+
+}
+
 
 module.exports={
 	passwordChecker,
-	validator
+	validator, jwtTokenGen
 }
