@@ -100,7 +100,7 @@ function actualRegister(req,res,next){
 		console.log(result);
 		if(result === 0){
 			//res.status(500);
-			res.json({status:500,message:"couldnot delete"})
+			res.json({status:500,message:"couldnot delete user"})
 		}else
 		{
 		//res.status(200);
