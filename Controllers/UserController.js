@@ -85,5 +85,33 @@ function actualRegister(req,res,next){
 
 	}
 
+	function deleteUser(req,res,next){
+		//console.log('deletehere')
+		if(req.params.id===null ||req.params.id===undefined){
+			//res.status(404);
+			//res.json({status:404, message: 'Id not provided'})
+	}
+	user.destroy({
+		where:{
+			id:req.params.id
+		}
+	})
+	.then(function(result){
+		console.log(result);
+		if(result === 0){
+			//res.status(500);
+			res.json({status:500,message:"couldnot delete"})
+		}else
+		{
+		//res.status(200);
+			res.json({status:200,message:"user deleted successfully"})
+	}
+	})
+	.catch(function(err){
+
+	}); 
+}
+
+
 	
-module.exports ={validator,checkIfUserExists, getHash, actualRegister}
+module.exports ={validator,checkIfUserExists, getHash, actualRegister, deleteUser}

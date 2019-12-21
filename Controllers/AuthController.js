@@ -89,7 +89,27 @@ function jwtTokenGen(req,res,next){
 }
 
 
+	function verifyToken(req,res,next){
+	var token=	req.headers.authorization.slice(7,req.headers.authorization.length)
+
+		//console.log(req.headers.authorization)
+
+		jwt.verify(token,'secretOrPrivateKey', function(err,result){
+			//console.log(err,result)
+			if(result){
+				next();
+			}else{
+				//res.status(500)
+				res.json({status:500,message:'cannot delete'});
+				//next();
+			}
+
+		})
+
+	}
+
 module.exports={
 	passwordChecker,
-	validator, jwtTokenGen
+	validator, jwtTokenGen,
+	verifyToken
 }

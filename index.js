@@ -26,6 +26,7 @@ app.post('/registration',
 	usercontroller.validator, usercontroller.checkIfUserExists,
 	  usercontroller.getHash,usercontroller.actualRegister)
 app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
+app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
 
 
 app.listen(3023);
