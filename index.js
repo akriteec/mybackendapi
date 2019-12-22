@@ -4,7 +4,32 @@ var dbConfig= require('./Config/databaseConfig.js')
 var express = require('express');
 var bodyParser = require('body-parser')
 var app = express();
+var swaggerJSDoc =require("swagger-jsdoc");
+var swaggerUI = require("swagger-ui-express");
+var swaggerDefinition = {
+	info:{
+		title:'Grocery',
+		description:'This is my final project documentation',
+		version:'1.0.0'
+	},
+	securityDefinitions: {
+		bearerAuth:{
+			type:'apiKey',
+			name:'authorization',
+			in:'header',
+			scheme:'bearer',
+		}
+	},
+	host:'localhost:3023',
+	basepath:'/'
+}
+var swaggerOptions = {
+swaggerDefinition,
+apis:['./index.js']
+}
 
+var swaggerSpecs = swaggerJSDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 //IMAGE
 //var multer= require('multer');
 /*var upload= multer({dest:'images/'})
@@ -22,9 +47,87 @@ var authcontroller =require('./Controllers/AuthController.js');
 
 app.use(bodyParser.urlencoded({extended:true}));
 
+
+//registrationAPIDocumentation
+/***
+* @swagger
+* /registration:
+*  post:
+*   tags:
+*    - Users
+*   description: User Registration Testing
+*   produces:
+*    - application/json
+*   consumes:
+*    - application/x-www-form-urlencoded
+*   parameters:
+*    - name: username
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide unique username
+*    - name: phone
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide phoneno
+*    - name: address
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide address
+*    - name: email
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide email
+*    - name: password
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide password
+*   responses:
+*    201:
+*     description: registered successfully
+*    409:
+*     description: user already exists
+*    500:
+*     description: internal server error
+*/
+
 app.post('/registration', 
 	usercontroller.validator, usercontroller.checkIfUserExists,
 	  usercontroller.getHash,usercontroller.actualRegister)
+
+
+/***
+* @swagger
+* /login:
+*  post:
+*   tags:
+*    - Users
+*   description: User Login Testing
+*   produces:
+*    - application/json
+*   consumes:
+*    - application/x-www-form-urlencoded
+*   parameters:
+*    - name: username
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide unique username
+*    - name: password
+*      in: formData
+*      type: string
+*      required: true
+*      description: Please provide password
+*   responses:
+*    201:
+*     description: login successfully
+*    500:
+*     description: internal server error
+*/
 app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
 app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
 

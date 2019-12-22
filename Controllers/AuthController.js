@@ -62,7 +62,7 @@ function passwordChecker(req,res,next){
 			next();
 		}else{
 
-			res.status(500)
+			//res.status(500)
 			res.json({status:500, message:'password not match'});
 			next();
 
@@ -83,7 +83,7 @@ function jwtTokenGen(req,res,next){
 	jwt.sign(myPayload, 'secretOrPrivateKey', {expiresIn: "10h"}, function(err,result){
 		console.log(result);
 		console.log(err);
-		res.json({"user token": result})
+		res.json({ status:201, "user token": result})
 	})
 
 }
