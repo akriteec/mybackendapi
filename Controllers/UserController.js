@@ -112,6 +112,16 @@ function actualRegister(req,res,next){
 	}); 
 }
 
+ function editUser(req, res, next){
+ 	user.findOneAndUpdate({
+ 		_id :req.params.id}, req.body)
+ 	
+ 	.then(function()
+ 		{res.send("updated")})
+ 	.catch(function(e)
+ 		{ res.send(e)}) }
+    
+  
 
 	
-module.exports ={validator,checkIfUserExists, getHash, actualRegister, deleteUser}
+module.exports ={validator,checkIfUserExists, getHash, actualRegister, deleteUser, editUser}

@@ -31,14 +31,13 @@ else{
 	})
 	.then(function(result){
 		if(result === null){
-			status:200;
+			res.json({status:500,message:'invalid username'})
 		}else{
 			req.xyz = result.dataValues.password;
 			next();
 		}
 	})
 	.catch()
-	//res.json({status:404,message:'username couldnot find'})
 	
 }
 }

@@ -129,12 +129,36 @@ app.post('/registration',
 *     description: internal server error
 */
 app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
+
+
+/**
+ * @swagger
+ * /user/{id}:
+ *   delete:
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     description: Deletes a single user
+ *     produces:
+ *      - application/json
+ *     consumes:
+ *      - application/x-www-form-urlencoded
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *     responses:
+ *       200:
+ *         description: Successfully deleted
+ */
 app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
+
+app.put('/user/:id', authcontroller.verifyToken, usercontroller.editUser)
 
 
 app.listen(3023);
-  /*app.listen(3000, () => {
-     console.log('listen on 3000')
+  /*app.listen(3023, () => {
+     console.log('listen on 3023')
    })
 */
 
