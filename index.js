@@ -125,6 +125,8 @@ app.post('/registration',
 *   responses:
 *    201:
 *     description: login successfully
+*    422:
+*     description: invalid username
 *    500:
 *     description: internal server error
 */
@@ -153,7 +155,48 @@ app.post('/login', authcontroller.validator, authcontroller.passwordChecker, aut
  */
 app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
 
-app.put('/user/:id', authcontroller.verifyToken, usercontroller.editUser)
+
+/**
+ * @swagger
+ * /user/{id}:
+ *   put:
+ *     tags:
+ *      - Users
+ *     security:
+ *      - bearerAuth: []
+ *     description: Updates a single user
+ *     produces:
+ *      - application/json
+ *     consumes:
+ *      - application/x-www-form-urlencoded
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *      - name: username
+ *        in: formData
+ *        type: string
+ *        required: false
+ *        description: Update your username
+ *      - name: phone
+ *        in: formData
+ *        type: string
+ *        required: false
+ *        description: Update your phoneno
+ *      - name: address
+ *        in: formData
+ *        type: string
+ *        required: false
+ *        description: Update your address
+ *      - name: email
+ *        in: formData
+ *        type: string
+ *        required: false
+ *        description: Update your email
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+app.put('/update/:id', authcontroller.verifyToken, usercontroller.editUser)
 
 
 app.listen(3023);

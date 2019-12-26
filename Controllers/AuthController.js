@@ -31,7 +31,7 @@ else{
 	})
 	.then(function(result){
 		if(result === null){
-			res.json({status:500,message:'invalid username'})
+			res.json({status:422,message:'invalid username'})
 		}else{
 			req.xyz = result.dataValues.password;
 			next();
