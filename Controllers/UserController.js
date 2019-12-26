@@ -112,16 +112,39 @@ function actualRegister(req,res,next){
 	}); 
 }
 
- function editUser(req, res, next){
- 	user.findOneAndUpdate({
- 		_id :req.params.id}, req.body)
- 	
- 	.then(function()
- 		{res.send("updated")})
- 	.catch(function(e)
- 		{ res.send(e)}) }
-    
-  
+function editUser(req,res,next){
+		//console.log('deletehere')
+		if(req.params.id===null ||req.params.id===undefined){
+			//res.status(404);
+			//res.json({status:404, message: 'Id not provided'})
+	}
+	user.update({
+		username:req.body.username,
+		phone:req.body.phone,
+		address:req.body.address,
+		email:req.body.email,
+		password:req.hashKey},{
 
+		where:{
+			id:req.params.id
+		}
+	})
+	.then(function(result){
+		//console.log(result);
+		if(result === 0){
+			//res.status(500);
+			res.json({status:500,message:"couldnot edit user"})
+		}else
+		{
+		//res.status(200);
+			res.json({status:200,message:"user updated successfully"})
+	}
+	})
+	.catch(function(err){
+
+	}); 
+}
+
+ 
 	
 module.exports ={validator,checkIfUserExists, getHash, actualRegister, deleteUser, editUser}

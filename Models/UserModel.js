@@ -34,6 +34,12 @@ var user= dbConfig.sequelize.define('user',
 		allowNull: false
 }
 },
+
+
+{
+	paranoid:true
+}
+
 /*{
 	freezeTable:true, //tablename chnage garna yeo freezeTable garekooo
 	tableName:'user_table' //tablename changed
