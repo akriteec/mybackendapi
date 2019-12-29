@@ -30,18 +30,21 @@ apis:['./index.js']
 
 var swaggerSpecs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
+
 //IMAGE
-//var multer= require('multer');
-/*var upload= multer({dest:'images/'})
+var multer= require('multer');
+var upload= multer({dest:'images/'})
 app.post('/test', upload.single('imagex'), function(req,res,next){
 	console.log(req.files);
 	console.log(req.body);
 	 }
-	 )*/
+	 )
 
 
 var userModel= require('./Models/UserModel.js');
+var productModel= require('./Models/ProductModel.js');
 var usercontroller =require('./Controllers/UserController.js');
+var productcontroller =require('./Controllers/ProductController.js');
 var authcontroller =require('./Controllers/AuthController.js');
 
 
@@ -198,6 +201,8 @@ app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
  */
 app.put('/update/:id', authcontroller.verifyToken, usercontroller.editUser)
 
+
+app.post('/addproduct', productcontroller.addProduct)
 
 app.listen(3023);
   /*app.listen(3023, () => {
