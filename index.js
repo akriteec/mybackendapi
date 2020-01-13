@@ -33,22 +33,18 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
 //IMAGE
 var multer= require('multer');
-var upload= multer({dest:'images/'})
-app.post('/test', upload.single('imagex'), function(req,res,next){
-	console.log(req.files);
-	console.log(req.body);
-	 }
-	 )
-
+app.use(express.static(__dirname + "/upload"));
 
 var userModel= require('./Models/UserModel.js');
 var productModel= require('./Models/ProductModel.js');
 var usercontroller =require('./Controllers/UserController.js');
 var productcontroller =require('./Controllers/ProductController.js');
 var authcontroller =require('./Controllers/AuthController.js');
+var uploadController = require('./Controllers/upload.js');
 
 
 app.use(bodyParser.urlencoded({extended:true}));
+app.use('/upload', uploadController);
 
 
 //registrationAPIDocumentation
