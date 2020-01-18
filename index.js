@@ -1,7 +1,17 @@
 
-
-var dbConfig= require('./Config/databaseConfig.js')
 var express = require('express');
+var mongoose = require("mongoose");
+var morgan = require('morgan');
+var dotenv = require('dotenv').config();
+var auth = require('./auth');
+var cors = require('cors');
+
+var app = express();
+app.use(morgan('tiny'));
+app.use(express.json());
+app.options('*', cors());
+app.use(express.urlencoded({extended: true }));
+
 var bodyParser = require('body-parser')
 var app = express();
 var swaggerJSDoc =require("swagger-jsdoc");
@@ -20,7 +30,7 @@ var swaggerDefinition = {
 			scheme:'bearer',
 		}
 	},
-	host:'localhost:3023',
+	host:'localhost:3000',
 	basepath:'/'
 }
 var swaggerOptions = {
@@ -36,15 +46,33 @@ var multer= require('multer');
 app.use(express.static(__dirname + "/upload"));
 
 var userModel= require('./Models/UserModel.js');
-var productModel= require('./Models/ProductModel.js');
 var usercontroller =require('./Controllers/UserController.js');
-var productcontroller =require('./Controllers/ProductController.js');
-var authcontroller =require('./Controllers/AuthController.js');
 var uploadController = require('./Controllers/upload.js');
 
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/upload', uploadController);
+
+
+mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true, 
+	useFindAndModify: false, useCreateIndex: true })
+    .then((db) => {
+        console.log("Successfully connected to MongodB server");
+    }, (err) => console.log(err));
+
+app.use('/users', usercontroller);
+app.use('/upload', uploadController);
+app.use(auth.verifyUser);
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.statusCode = 500;
+    res.json({ status: err.message });
+});
+
+app.listen(process.env.PORT, () => {
+    console.log(`App is running at localhost:${process.env.PORT}`);
+});
 
 
 //registrationAPIDocumentation
@@ -60,11 +88,11 @@ app.use('/upload', uploadController);
 *   consumes:
 *    - application/x-www-form-urlencoded
 *   parameters:
-*    - name: username
+*    - name: fullname
 *      in: formData
 *      type: string
 *      required: true
-*      description: Please provide unique username
+*      description: Please provide fullname
 *    - name: phone
 *      in: formData
 *      type: string
@@ -79,7 +107,7 @@ app.use('/upload', uploadController);
 *      in: formData
 *      type: string
 *      required: true
-*      description: Please provide email
+*      description: Please provide unique email
 *    - name: password
 *      in: formData
 *      type: string
@@ -94,9 +122,9 @@ app.use('/upload', uploadController);
 *     description: internal server error
 */
 
-app.post('/registration', 
-	usercontroller.validator, usercontroller.checkIfUserExists,
-	  usercontroller.getHash,usercontroller.actualRegister)
+// app.post('/registration', 
+// 	usercontroller.validator, usercontroller.checkIfUserExists,
+// 	  usercontroller.getHash,usercontroller.actualRegister)
 
 
 /***
@@ -129,7 +157,7 @@ app.post('/registration',
 *    500:
 *     description: internal server error
 */
-app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
+// app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
 
 
 /**
@@ -152,7 +180,7 @@ app.post('/login', authcontroller.validator, authcontroller.passwordChecker, aut
  *       200:
  *         description: Successfully deleted
  */
-app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
+// app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
 
 
 /**
@@ -195,12 +223,12 @@ app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
  *       200:
  *         description: Successfully updated
  */
-app.put('/update/:id', authcontroller.verifyToken, usercontroller.editUser)
+// app.put('/update/:id', authcontroller.verifyToken, usercontroller.editUser)
 
 
-app.post('/addproduct', productcontroller.addProduct)
+// app.post('/addproduct', productcontroller.addProduct)
 
-app.listen(3023);
+// app.listen(3023);
   /*app.listen(3023, () => {
      console.log('listen on 3023')
    })
