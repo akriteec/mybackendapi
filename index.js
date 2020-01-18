@@ -46,12 +46,14 @@ var multer= require('multer');
 app.use(express.static(__dirname + "/upload"));
 
 var userModel= require('./Models/UserModel.js');
+var productModel = require('./Models/ProductModel.js')
 var usercontroller =require('./Controllers/UserController.js');
+var productcontroller =require('./Controllers/ProductController.js');
 var uploadController = require('./Controllers/upload.js');
 
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use('/upload', uploadController);
+
 mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true, 
 	useFindAndModify: false, useCreateIndex: true })
     .then((db) => {
@@ -59,8 +61,10 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
     }, (err) => console.log(err));
 
 app.use('/users', usercontroller);
-app.use('/upload', uploadController);
 app.use(auth.verifyUser);
+app.use('/product', productcontroller);
+app.use('/upload', uploadController);
+
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
