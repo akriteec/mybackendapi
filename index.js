@@ -14,6 +14,17 @@ app.use(express.urlencoded({extended: true }));
 
 var bodyParser = require('body-parser')
 var app = express();
+var mongoose = require("mongoose");
+var morgan = require('morgan');
+var dotenv = require('dotenv').config();
+var auth = require('./auth');
+var cors = require('cors');
+app.use(morgan('tiny'));
+app.use(express.json());
+app.options('*', cors());
+
+app.use(express.urlencoded({extended: true }));
+
 var swaggerJSDoc =require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
 var swaggerDefinition = {
@@ -41,18 +52,19 @@ apis:['./index.js']
 var swaggerSpecs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
+
 //IMAGE
 var multer= require('multer');
 app.use(express.static(__dirname + "/upload"));
 
 var userModel= require('./Models/UserModel.js');
+var productModel = require('./Models/ProductModel.js')
+var usercontroller =require('./Controllers/UserController.js');
 var usercontroller =require('./Controllers/UserController.js');
 var uploadController = require('./Controllers/upload.js');
 
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use('/upload', uploadController);
-
 
 mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true, 
 	useFindAndModify: false, useCreateIndex: true })
@@ -61,8 +73,8 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
     }, (err) => console.log(err));
 
 app.use('/users', usercontroller);
-app.use('/upload', uploadController);
 app.use(auth.verifyUser);
+app.use('/upload', uploadController);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -157,7 +169,8 @@ app.listen(process.env.PORT, () => {
 *    500:
 *     description: internal server error
 */
-// app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
+
+
 
 
 /**
@@ -180,7 +193,9 @@ app.listen(process.env.PORT, () => {
  *       200:
  *         description: Successfully deleted
  */
-// app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
+
+
+
 
 
 /**

@@ -32,6 +32,7 @@ router.post('/login', (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then((user) => {
             if (user == null) {
+
                 let err = new Error('Email not found!');
                 err.status = 401;
                 return next(err);
@@ -50,18 +51,7 @@ router.post('/login', (req, res, next) => {
         }).catch(next);
 })
 
-router.get('/me', auth.verifyUser, (req,res,next) =>{
-    res.json({_id:req.user._id,image:req.user.image});
-});
 
-router.get('/',(req,res,next)=>{
-    User.find({},(err,users)=>{
-        if (err) {
-            res.json(next)
-        }
-        res.json(users)
-    });
-});
 
 
 /*router.put('/me', auth.verifyUser, (req, res, next) => {
