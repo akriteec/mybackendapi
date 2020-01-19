@@ -1,5 +1,17 @@
 
 var express = require('express');
+var mongoose = require("mongoose");
+var morgan = require('morgan');
+var dotenv = require('dotenv').config();
+var auth = require('./auth');
+var cors = require('cors');
+
+var app = express();
+app.use(morgan('tiny'));
+app.use(express.json());
+app.options('*', cors());
+app.use(express.urlencoded({extended: true }));
+
 var bodyParser = require('body-parser')
 var app = express();
 var mongoose = require("mongoose");
@@ -29,7 +41,7 @@ var swaggerDefinition = {
 			scheme:'bearer',
 		}
 	},
-	host:'localhost:3023',
+	host:'localhost:3000',
 	basepath:'/'
 }
 var swaggerOptions = {
@@ -48,7 +60,7 @@ app.use(express.static(__dirname + "/upload"));
 var userModel= require('./Models/UserModel.js');
 var productModel = require('./Models/ProductModel.js')
 var usercontroller =require('./Controllers/UserController.js');
-var productcontroller =require('./Controllers/ProductController.js');
+var usercontroller =require('./Controllers/UserController.js');
 var uploadController = require('./Controllers/upload.js');
 
 
@@ -62,9 +74,7 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
 
 app.use('/users', usercontroller);
 app.use(auth.verifyUser);
-app.use('/product', productcontroller);
 app.use('/upload', uploadController);
-
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -90,11 +100,11 @@ app.listen(process.env.PORT, () => {
 *   consumes:
 *    - application/x-www-form-urlencoded
 *   parameters:
-*    - name: username
+*    - name: fullname
 *      in: formData
 *      type: string
 *      required: true
-*      description: Please provide unique username
+*      description: Please provide fullname
 *    - name: phone
 *      in: formData
 *      type: string
@@ -109,7 +119,7 @@ app.listen(process.env.PORT, () => {
 *      in: formData
 *      type: string
 *      required: true
-*      description: Please provide email
+*      description: Please provide unique email
 *    - name: password
 *      in: formData
 *      type: string
@@ -159,7 +169,8 @@ app.listen(process.env.PORT, () => {
 *    500:
 *     description: internal server error
 */
-//app.post('/login', authcontroller.validator, authcontroller.passwordChecker, authcontroller.jwtTokenGen)
+
+
 
 
 /**
@@ -182,7 +193,9 @@ app.listen(process.env.PORT, () => {
  *       200:
  *         description: Successfully deleted
  */
-//app.delete('/user/:id', authcontroller.verifyToken, usercontroller.deleteUser)
+
+
+
 
 
 /**
