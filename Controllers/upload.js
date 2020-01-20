@@ -1,8 +1,8 @@
-const express = require('express');
-const multer = require('multer');
-const path = require("path");
+var express = require('express');
+var multer = require('multer');
+var path = require("path");
 
-const storage = multer.diskStorage({
+var storage = multer.diskStorage({
     destination: "./upload/uploads",
     filename: (req, file, callback) => {
         let ext = path.extname(file.originalname);
@@ -10,23 +10,23 @@ const storage = multer.diskStorage({
     }
 });
 
-const imageFileFilter = (req, file, cb) => {
+var imageFileFilter = (req, file, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
         return cb(new Error("You can upload only image files!"), false);
     }
     cb(null, true);
 };
 
-const upload = multer({
+var upload = multer({
     storage: storage,
     fileFilter: imageFileFilter
 })
 
-const uploadRouter = express.Router();
+var uploadController = express.Router();
 
-uploadRouter.route('/')
+uploadController.route('/')
     .post(upload.single('imageFile'), (req, res) => {
         res.json(req.file);
     });
 
-module.exports = uploadRouter;
+module.exports = uploadController;

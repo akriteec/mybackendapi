@@ -51,13 +51,24 @@ router.post('/login', (req, res, next) => {
         }).catch(next);
 })
 
+router.get('/me', auth.verifyUser, (req,res,next) =>{
+    res.json({_id:req.user._id,imageu:req.user.imageu, email:req.user.email});
+});
 
+router.get('/',(req,res,next)=>{
+    User.find({},(err,users)=>{
+        if (err) {
+            res.json(next)
+        }
+        res.json(users)
+    });
+});
 
 
 /*router.put('/me', auth.verifyUser, (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, { $set: req.body }, { new: true })
         .then((user) => {
-            res.json({ _id: user._id,image: user.image, email: req.user.email, fullname: req.user.fullname, phone: user.phone, mobilephone: user.mobilephone,address1: user.address1,address2: user.address2,address3: user.address3});
+            res.json({ _id: user._id,imageu: user.imageu, email: req.user.email, fullname: req.user.fullname, phone: user.phone, address:user.address});
         }).catch(next);
 });*/
 
