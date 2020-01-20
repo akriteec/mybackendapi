@@ -12,18 +12,7 @@ app.use(express.json());
 app.options('*', cors());
 app.use(express.urlencoded({extended: true }));
 
-var bodyParser = require('body-parser')
-var app = express();
-var mongoose = require("mongoose");
-var morgan = require('morgan');
-var dotenv = require('dotenv').config();
-var auth = require('./auth');
-var cors = require('cors');
-app.use(morgan('tiny'));
-app.use(express.json());
-app.options('*', cors());
-
-app.use(express.urlencoded({extended: true }));
+// var bodyParser = require('body-parser')
 
 var swaggerJSDoc =require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
@@ -52,19 +41,18 @@ apis:['./index.js']
 var swaggerSpecs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
+var userModel= require('./Models/UserModel.js');
+var usercontroller =require('./Controllers/UserController.js');
+var productModel = require('./Models/ProductModel.js')
+var productTypeModel = require('./Models/ProductType.js')
+var productTypecontroller =require('./Controllers/ProductType.js');
+var uploadcontroller = require('./Controllers/upload.js');
+
 
 //IMAGE
-var multer= require('multer');
 app.use(express.static(__dirname + "/upload"));
 
-var userModel= require('./Models/UserModel.js');
-var productModel = require('./Models/ProductModel.js')
-var usercontroller =require('./Controllers/UserController.js');
-var usercontroller =require('./Controllers/UserController.js');
-var uploadController = require('./Controllers/upload.js');
-
-
-app.use(bodyParser.urlencoded({extended:true}));
+//app.use(bodyParser.urlencoded({extended:true}));
 
 mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true, 
 	useFindAndModify: false, useCreateIndex: true })
@@ -73,8 +61,9 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
     }, (err) => console.log(err));
 
 app.use('/users', usercontroller);
+app.use('/upload', uploadcontroller);
+app.use('/ProductType', productTypecontroller);
 app.use(auth.verifyUser);
-app.use('/upload', uploadController);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

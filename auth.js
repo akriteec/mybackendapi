@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken');
-const User = require('./Models/UserModel');
+var jwt = require('jsonwebtoken');
+var User = require('./Models/UserModel');
+
 module.exports.verifyUser = (req, res, next) => {
     let authHeader = req.headers.authorization;
     if (!authHeader) {
