@@ -42,10 +42,12 @@ var swaggerSpecs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
 var userModel= require('./Models/UserModel.js');
+var feedbackModel= require('./Models/ContactUs.js');
 var usercontroller =require('./Controllers/UserController.js');
 var productModel = require('./Models/ProductModel.js')
 var productTypeModel = require('./Models/ProductType.js')
 var productTypecontroller =require('./Controllers/ProductType.js');
+var Feedbackcontroller =require('./Controllers/ContactUs.js');
 var uploadcontroller = require('./Controllers/upload.js');
 
 
@@ -63,6 +65,7 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
 app.use('/users', usercontroller);
 app.use('/upload', uploadcontroller);
 app.use('/ProductType', productTypecontroller);
+app.use('/feedback', Feedbackcontroller);
 app.use(auth.verifyUser);
 
 app.use((err, req, res, next) => {
