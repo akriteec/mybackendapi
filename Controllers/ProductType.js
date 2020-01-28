@@ -8,7 +8,7 @@ router.post('/addProductType', (req, res, next) => {
         ProductType.create({
             
             productType:req.body.productType,
-            imagePT: req.body.imagePT
+           // imagePT: req.body.imagePT
            
         }).then((productType) => {
             res.json({ status: "ProductType added success!"});

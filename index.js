@@ -47,6 +47,7 @@ var usercontroller =require('./Controllers/UserController.js');
 var productModel = require('./Models/ProductModel.js')
 var productTypeModel = require('./Models/ProductType.js')
 var productTypecontroller =require('./Controllers/ProductType.js');
+var productcontroller =require('./Controllers/Product.js');
 var Feedbackcontroller =require('./Controllers/ContactUs.js');
 var uploadcontroller = require('./Controllers/upload.js');
 
@@ -64,8 +65,10 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
 
 app.use('/users', usercontroller);
 app.use('/upload', uploadcontroller);
+app.use('/product', productcontroller);
 app.use('/ProductType', productTypecontroller);
 app.use('/feedback', Feedbackcontroller);
+app.use('/me', usercontroller);
 app.use(auth.verifyUser);
 
 app.use((err, req, res, next) => {

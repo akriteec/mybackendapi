@@ -1,5 +1,5 @@
 const express = require('express');
-const Product = require('../Models/Product');
+const Product = require('../Models/ProductModel');
 const router = express.Router();
 
 
@@ -28,5 +28,6 @@ router.get('/',(req, res, next) => {
         res.json(product)
     });
 })
+
 
 module.exports = router;
