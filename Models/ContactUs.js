@@ -11,6 +11,7 @@ var contactusSchema = new mongoose.Schema({
     },
     yourfeedback: {
         type: String,
+        required:true
         
     }
 });

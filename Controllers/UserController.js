@@ -16,8 +16,8 @@ router.post('/signup', (req, res, next) => {
         User.create({
             
             fullname:req.body.fullname,
-            phone:req.body.phone,
             address:req.body.address,
+            phone:req.body.phone,
             email:req.body.email,
             password: hash,
             imageu: req.body.imageu
@@ -65,11 +65,11 @@ router.get('/',(req,res,next)=>{
 });
 
 
-/*router.put('/me', auth.verifyUser, (req, res, next) => {
+router.put('/me', auth.verifyUser, (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, { $set: req.body }, { new: true })
         .then((user) => {
-            res.json({ _id: user._id,imageu: user.imageu, email: req.user.email, fullname: req.user.fullname, phone: user.phone, address:user.address});
+            res.json({ _id: user._id, email: req.user.email, fullname: req.user.fullname, phone: user.phone, address:user.address});
         }).catch(next);
-});*/
+});
 
 module.exports = router;
