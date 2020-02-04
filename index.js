@@ -7,10 +7,12 @@ var auth = require('./auth');
 var cors = require('cors');
 
 var app = express();
+app.use(cors())
 app.use(morgan('tiny'));
 app.use(express.json());
 app.options('*', cors());
 app.use(express.urlencoded({extended: true }));
+
 
 // var bodyParser = require('body-parser')
 
@@ -45,8 +47,8 @@ var userModel= require('./Models/UserModel.js');
 var feedbackModel= require('./Models/ContactUs.js');
 var usercontroller =require('./Controllers/UserController.js');
 var productModel = require('./Models/ProductModel.js')
-var productTypeModel = require('./Models/ProductType.js')
-var productTypecontroller =require('./Controllers/ProductType.js');
+// var productTypeModel = require('./Models/ProductType.js')
+// var productTypecontroller =require('./Controllers/ProductType.js');
 var productcontroller =require('./Controllers/Product.js');
 var Feedbackcontroller =require('./Controllers/ContactUs.js');
 var uploadcontroller = require('./Controllers/upload.js');
@@ -65,8 +67,8 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
 
 app.use('/users', usercontroller);
 app.use('/upload', uploadcontroller);
-app.use('/product', productcontroller);
-app.use('/ProductType', productTypecontroller);
+app.use('/', productcontroller);
+// app.use('/ProductType', productTypecontroller);
 app.use('/feedback', Feedbackcontroller);
 app.use('/me', usercontroller);
 app.use(auth.verifyUser);
