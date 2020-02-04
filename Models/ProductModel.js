@@ -16,7 +16,23 @@ const productSchema = new mongoose.Schema({
      imagep: {
         type: String
     },
-    productType:{
+    popularproduct:{
+        type: String,
+       
+    },
+     dailyessentials:{
+        type: String,
+       
+    },
+     vegetables:{
+        type: String,
+       
+    },
+     fruits:{
+        type: String,
+       
+    },
+     cookingoil:{
         type: String,
        
     },

@@ -1,17 +1,17 @@
 
 
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 
-var ProductTypeSchema = new mongoose.Schema({
- productType:{
-        type:String,
-        require: true
-    }
-    // },
-    //  imagePT:{
-    //     type:String,
-    //     require: true
-    // }
-});
+// var ProductTypeSchema = new mongoose.Schema({
+//  productType:{
+//         type:String,
+//         require: true
+//     }
+//     // },
+//     //  imagePT:{
+//     //     type:String,
+//     //     require: true
+//     // }
+// });
 
-module.exports = mongoose.model('productType', ProductTypeSchema);
+// module.exports = mongoose.model('productType', ProductTypeSchema);

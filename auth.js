@@ -4,8 +4,8 @@ var User = require('./Models/UserModel');
 module.exports.verifyUser = (req, res, next) => {
     let authHeader = req.headers.authorization;
     if (!authHeader) {
-        let err = new Error("Bearer token is not set!");
-        err.status = 401;
+       let err = new Error("Bearer token is not set!");
+       err.status = 401;
         return next(err);
     }
     let token = authHeader.split(' ')[1];

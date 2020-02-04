@@ -52,7 +52,7 @@ router.post('/login', (req, res, next) => {
 })
 
 router.get('/me', auth.verifyUser, (req,res,next) =>{
-    res.json({_id:req.user._id,imageu:req.user.imageu, email:req.user.email});
+    res.json({_id:req.user._id,imageu:req.user.imageu, fullname:req.user.fullname, address:req.user.address,phone:req.user.phone,email:req.user.email,password:req.user.password});
 });
 
 router.get('/',(req,res,next)=>{
@@ -65,11 +65,24 @@ router.get('/',(req,res,next)=>{
 });
 
 
-router.put('/me', auth.verifyUser, (req, res, next) => {
+router.put('/update', auth.verifyUser, (req, res, next) => {
     User.findByIdAndUpdate(req.user._id, { $set: req.body }, { new: true })
         .then((user) => {
-            res.json({ _id: user._id, email: req.user.email, fullname: req.user.fullname, phone: user.phone, address:user.address});
+            res.json({ _id: user._id, email: req.user.email, fullname: req.user.fullname, phone: user.phone, address:user.address,password:user.password});
         }).catch(next);
 });
+
+// router.put("/me",auth.verifyUser,(req,res,next)=>{
+//     User.findByIdAndUpdate({_id:req.user._id},req.body)
+//     .then(()=>{
+//         User.findOne({_id:req.user._id})
+//         .then((result)=>{
+//             res.json(result)
+//         })
+       
+//     })
+//      .catch(next)
+// })
+
 
 module.exports = router;
