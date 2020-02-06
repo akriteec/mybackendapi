@@ -107,5 +107,28 @@ router.route("/products/dailyessentials")
 
 
 
+ router.route("/products/:id")
+ .delete(function(req,res,next){
+    Product.findByIdAndDelete({_id:req.params.id},function(err){
+        if (!err){
+            res.json("successfully deleted");
+        }
+        else{
+            res.send(err);
+        }
+       
+    })
+ });
+
+//  router.delete("/products/:id",(req,res,next)=>
+// {
+//     Product.findByIdAndDelete({_id:req.params.id})
+//     .then((result)=>
+//     {
+//         res.json({"message":"deleted sucessfully"})
+//     })
+//     .catch(next)
+// })
+
 
 module.exports = router;

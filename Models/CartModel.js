@@ -2,22 +2,26 @@ var mongoose = require('mongoose');
 
 var cartScheme = new mongoose.Schema({
     
-    pid: {
-        type: String,
-    },
-    pname: {
-        type: String,
-        required:true
-    },
+    
     pprice: {
         type: String,
         required:true
         
     },
-     pquantity: {
+     pname: {
+        type: String,
+        required:true
+    },
+     pdescription: {
         type: String,
         required:true
         
+    },
+    pemail:{
+        type:String
+    },
+    pphone:{
+        type:String  
     }
 });
 
