@@ -120,15 +120,29 @@ router.route("/products/dailyessentials")
     })
  });
 
-//  router.delete("/products/:id",(req,res,next)=>
-// {
-//     Product.findByIdAndDelete({_id:req.params.id})
-//     .then((result)=>
-//     {
-//         res.json({"message":"deleted sucessfully"})
+router.route('/products/:id')
+    .get((req, res, next) => {
+        Product.findOne({ _id: req.params.id })
+            .then((product) => {
+                res.json(product);
+            }).catch(next);
+    })
+// router.route('/:id')
+//     .get((req, res, next) => {
+//         Product.findById(req.params.id)
+//             .populate('product', 'name')
+//             .then((product) => {
+//                 res.json(product);
+//             }).catch(next);
 //     })
-//     .catch(next)
-// })
 
+
+router.route("/update/:id")
+.put((req, res, next) => {
+        Product.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+            .then((product) => {
+                res.json(product);
+            }).catch(next);
+    })
 
 module.exports = router;
