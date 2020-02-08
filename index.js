@@ -52,7 +52,8 @@ var productModel = require('./Models/ProductModel.js')
 var productcontroller =require('./Controllers/Product.js');
 var Feedbackcontroller =require('./Controllers/ContactUs.js');
 var uploadcontroller = require('./Controllers/upload.js');
-
+var cartcontroller = require('./Controllers/Cart.js');
+var cartmodel = require('./Models/CartModel.js');
 
 //IMAGE
 app.use(express.static(__dirname + "/upload"));
@@ -70,6 +71,7 @@ app.use('/upload', uploadcontroller);
 app.use('/', productcontroller);
 // app.use('/ProductType', productTypecontroller);
 app.use('/feedback', Feedbackcontroller);
+app.use('/', cartcontroller);
 app.use('/me', usercontroller);
 app.use(auth.verifyUser);
 
