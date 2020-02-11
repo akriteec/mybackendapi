@@ -23,14 +23,18 @@
     "tedious": "^6.6.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^7.0.1",
+    "mockgoose": "^8.0.4",
+    "supertest": "^4.0.2"
   },
   "scripts": {
     "dev": "./node_modules/.bin/eslint app.js && nodemon index.js",
     "lint": "./node_modules/.bin/eslint app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --timeout 150000 --exit"
   },
   "repository": {
     "type": "git",

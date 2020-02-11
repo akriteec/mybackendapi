@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
 var User = require('./Models/UserModel');
+var Cart = require('./Models/CartModel');
 
 module.exports.verifyUser = (req, res, next) => {
     let authHeader = req.headers.authorization;
@@ -21,6 +22,29 @@ module.exports.verifyUser = (req, res, next) => {
             next();
         })
 }
+
+module.exports.verifyOrder = (req, res, next) => {
+    let authHeader = req.headers.authorization;
+    if (!authHeader) {
+       let err = new Error("Bearer token is not set!");
+       err.status = 401;
+        return next(err);
+    }
+    let token = authHeader.split(' ')[1];
+    let data;
+    try {
+        data = jwt.verify(token, process.env.SECRET);
+    } catch (err) {
+        throw new Error('Token could not be verified!');
+    }
+    Cart.findById(data._id)
+        .then((cart) => {
+            req.cart = cart;
+            next();
+        })
+}
+
+
 module.exports.verifyAdmin = (req, res, next) => {
     if (!req.user) {
         let err = new Error('Unauthorized');

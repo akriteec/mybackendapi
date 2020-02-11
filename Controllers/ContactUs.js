@@ -27,4 +27,17 @@ router.get('/',(req, res, next) => {
     });
 })
 
+ router.route("/:id")
+ .delete(function(req,res,next){
+    Feedback.findByIdAndDelete({_id:req.params.id},function(err){
+        if (!err){
+            res.json("successfully deleted");
+        }
+        else{
+            res.send(err);
+        }
+       
+    })
+ });
+
 module.exports = router;

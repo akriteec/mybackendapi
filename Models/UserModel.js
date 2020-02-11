@@ -11,7 +11,7 @@ var userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        maxlength:8,
+       
     },
     email: {
         type: String,

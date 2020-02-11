@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var dotenv = require('dotenv').config();
 var auth = require('./auth');
 var cors = require('cors');
+var connection = require('./TestFolder/dbtest');
 
 var app = express();
 app.use(cors())
@@ -81,9 +82,19 @@ app.use((err, req, res, next) => {
     res.json({ status: err.message });
 });
 
-app.listen(process.env.PORT, () => {
-    console.log(`App is running at localhost:${process.env.PORT}`);
-});
+connection.connect()
+  .then(() =>{
+    app.listen(process.env.PORT, () => {
+      console.log(`App is running at localhost:${process.env.PORT}`);
+    });
+  })
+
+
+  module.exports= app;
+
+// app.listen(process.env.PORT, () => {
+//     console.log(`App is running at localhost:${process.env.PORT}`);
+// });
 
 
 //registrationAPIDocumentation
