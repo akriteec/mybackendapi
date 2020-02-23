@@ -127,6 +127,14 @@ router.route('/products/:id')
                 res.json(product);
             }).catch(next);
     })
+
+    router.get('/my/:id',(req, res, next) => {
+        Product.findById({ _id: req.params.id })
+            .then((us) => {
+                res.json(us)
+            }).catch(next);
+    })
+    
 // router.route('/:id')
 //     .get((req, res, next) => {
 //         Product.findById(req.params.id)

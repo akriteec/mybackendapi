@@ -14,14 +14,16 @@ var cartScheme = new mongoose.Schema({
     },
      pdescription: {
         type: String,
-        required:true
+        required:true,
         
     },
     pemail:{
-        type:String
+        type:String,
+        required:true,
     },
     pphone:{
-        type:String  
+        type:String,  
+        required:true
     }
 });
 

@@ -3,6 +3,7 @@ var Feedback = require('../Models/ContactUs');
 var router = express.Router();
 
 
+
 router.post('/addFeedback', (req, res, next) => {
 
         Feedback.create({
@@ -26,5 +27,27 @@ router.get('/',(req, res, next) => {
         res.json(feedback)
     });
 })
+
+// router.delete('/:id',(req, res, next) => {
+//     Feedback.findByIdAndDelete({_id:req.params.id},(err,feedback)=>{
+//         if(err){
+//             res.json(next)
+//         }
+//         res.json(feedback)
+//     });
+// })
+
+ router.route("/:id")
+ .delete(function(req,res,next){
+    Feedback.findByIdAndDelete({_id:req.params.id},function(err){
+        if (!err){
+            res.json("successfully deleted");
+        }
+        else{
+            res.send(err);
+        }
+       
+    })
+ });
 
 module.exports = router;

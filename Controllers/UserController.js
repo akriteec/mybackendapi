@@ -72,6 +72,20 @@ router.put('/update', auth.verifyUser, (req, res, next) => {
         }).catch(next);
 });
 
+
+router.route("/:id")
+ .delete(function(req,res,next){
+    User.findByIdAndDelete({_id:req.params.id},function(err){
+        if (!err){
+            res.json("successfully deleted");
+        }
+        else{
+            res.send(err);
+        }
+       
+    })
+});
+
 // router.put("/me",auth.verifyUser,(req,res,next)=>{
 //     User.findByIdAndUpdate({_id:req.user._id},req.body)
 //     .then(()=>{
